@@ -3,6 +3,8 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 
+const usersRouter = require('./controllers/users')
+
 const app = express()
 
 mongoose.set('useCreateIndex', true)
@@ -16,8 +18,10 @@ mongoose.connect(config.MONGODB, { useNewUrlParser: true, useUnifiedTopology: tr
     })
 mongoose.set('useFindAndModify', false)
 
-app.use(cors)
+app.use(cors())
 app.use(express.json())
+
+app.use('/api/users', usersRouter)
 
 app.get('/', (request, response) => {
     response.send('<h1>KAUPPALISTA BACK-END<h1>')
