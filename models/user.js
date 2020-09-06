@@ -7,9 +7,8 @@ const userSchema = mongoose.Schema({
         minglength: 4,
         unique: true
     },
-    name: {
-        type: String
-    },
+    name: String,
+    passwordHash: String,
     shops: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -17,12 +16,15 @@ const userSchema = mongoose.Schema({
         }
     ]
 })
+/* Annetaan avaimelle id, _id:n arvo ja poistetaan palautettavasta
+    objektista avaimet _id, __v ja passwordHash*/
 
 userSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
         delete returnedObject.__v
+        delete returnedObject.passwordHash
     }
 })
 

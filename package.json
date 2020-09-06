@@ -4,23 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test-dev":"NODE_ENV=test nodemon index.js",
     "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "author": "Antti Paavola",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jest": "^26.4.2",
     "mongoose": "^5.10.2",
     "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
     "eslint": "^7.8.1",
     "nodemon": "^2.0.4"
+  },
+  "jest": {
+    "testEnvironment" : "node"
   }
 }
