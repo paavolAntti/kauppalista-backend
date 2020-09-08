@@ -8,6 +8,12 @@ router.get('/', async (req, res) => {
     res.json(users.map(u => u.toJSON()))
 })
 
+router.get('/:id', async (req, res) => {
+    const user = await User
+        .findById(req.params.id)
+    res.json(user.toJSON())
+})
+
 router.post('/', async(req, res) => {
     const { username, name, password } = req.body
     // Jos bodyssa annetaan kelvoton salasana
@@ -16,6 +22,7 @@ router.post('/', async(req, res) => {
             error: 'password min length 5'
         })
     }
+    
     // salataan salasana bcryptin avulla
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
@@ -30,5 +37,6 @@ router.post('/', async(req, res) => {
     res.json(savedUser)
 
 })
+
 
 module.exports = router
