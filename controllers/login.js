@@ -6,7 +6,7 @@ const User = require('../models/user')
 loginRouter.post('/', async (req, res) => {
     const body = req.body
     // etsitään oikea käyttäjä bodyssa annetun käyttäjänimen perusteella
-    const user = await User.findOne({username: body.username})
+    const user = await User.findOne({username: body.username}).populate('shops')
     // passwordCorrect saa arvon user tai null jos käyttäjää ei ole olemassa tai salasana on väärä
     const passwordCorrect = user === null
         ? false
@@ -27,7 +27,7 @@ loginRouter.post('/', async (req, res) => {
 
     res
         .status(200)
-        .send({ token, username: user.username, name: user.name })
+        .send({ token, username: user.username, name: user.name, id: user._id})
 })
 
 module.exports = loginRouter

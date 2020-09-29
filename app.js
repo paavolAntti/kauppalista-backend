@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const shopRouter = require('./controllers/shops')
 
 const app = express()
 
@@ -24,6 +25,7 @@ app.use(express.json())
 
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/shops', shopRouter)
 
 app.get('/', (request, response) => {
     response.send('<h1>KAUPPALISTA BACK-END<h1>')

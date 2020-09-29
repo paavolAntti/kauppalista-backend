@@ -7,10 +7,13 @@ const shopSchema = mongoose.Schema({
         minlength: 3,
         unique: true
     },
-    lists: [
+    list: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'List'
+            item: {
+                type: String,
+                minlength: 3
+            },
+            amount: Number
         }
     ],
     user: {

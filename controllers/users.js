@@ -4,15 +4,16 @@ const User = require('../models/user')
 
 router.get('/', async (req, res) => {
     const users = await User
-        .find({})
+        .find({}).populate('shops')
     res.json(users.map(u => u.toJSON()))
 })
 
 router.get('/:id', async (req, res) => {
     const user = await User
-        .findById(req.params.id)
+        .findById(req.params.id).populate('shops')
     res.json(user.toJSON())
 })
+
 
 router.post('/', async(req, res) => {
     const { username, name, password } = req.body
