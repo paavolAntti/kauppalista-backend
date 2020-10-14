@@ -22,6 +22,7 @@ router.get('/', async (req, res) => {
 })
 // Uuden kaupan luominen 
 router.post('/', async (req, res) => {
+    
     const shop = new Shop(req.body)
     const token = getTokenFrom(req)
     console.log('token: ', token)
@@ -89,8 +90,14 @@ router.put('/:id/list', async (req, res) => {
     if(!item) {
         return res.status(401).json( {error: 'no specified item to remove'})
     }
-    const filteredList = shop.list.filter(i => i.item !== item)
-    shop.list = filteredList
+    const itemToReduce = shop.list.find(i => i.item === item.item)
+    if (itemToReduce.amount > 1) {
+        itemToReduce.amount -= 1
+    } else {
+        const filteredList = shop.list.filter(i => i.item !== item)
+        shop.list = filteredList
+    }
+    
     const savedShop = await shop.save()
 
     res.json(savedShop.toJSON())
