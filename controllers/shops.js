@@ -90,7 +90,8 @@ router.put('/:id/list', async (req, res) => {
     if(!item) {
         return res.status(401).json( {error: 'no specified item to remove'})
     }
-    const itemToReduce = shop.list.find(i => i.item === item.item)
+    const itemToReduce = shop.list.find(i => i.item === item)
+    console.log(itemToReduce)
     if (itemToReduce.amount > 1) {
         itemToReduce.amount -= 1
     } else {
