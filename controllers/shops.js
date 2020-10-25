@@ -60,7 +60,6 @@ router.delete('/:id', async (req, res) => {
     user.shops = user.shops.filter(s => s.id.toString() !== req.params.id.toString())
     await user.save()
     res.status(204).end()
-    
 })
 // uuden tavaran lisäys
 router.post('/:id/list', async (req, res) => {
