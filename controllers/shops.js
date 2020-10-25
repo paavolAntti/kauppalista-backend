@@ -47,6 +47,21 @@ router.post('/', async (req, res) => {
 
     res.json(savedShop.toJSON())
 })
+// Kaupan poisto
+router.delete('/:id', async (req, res) => {
+    const shop = await Shop.findById(req.params.id)
+    const token = getTokenFrom(req)
+    const verifiedToken = jwt.verify(token, process.env.SECRET)
+    if(!token || !verifiedToken.id) {
+        return res.status(401).json({error: 'invalid or missing token'})
+    }
+    const user = await User.findById(verifiedToken.id)
+    await shop.remove()
+    user.shops = user.shops.filter(s => s.id.toString() !== req.params.id.toString())
+    await user.save()
+    res.status(204).end()
+    
+})
 // uuden tavaran lisäys
 router.post('/:id/list', async (req, res) => {
     const shop = await Shop.findById(req.params.id)
