@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const router = require('express').Router()
 const User = require('../models/user')
+const validator = require('email-validator')
 
 router.get('/', async (req, res) => {
     const users = await User
@@ -16,11 +17,16 @@ router.get('/:id', async (req, res) => {
 
 
 router.post('/', async(req, res) => {
-    const { username, name, password } = req.body
+    const { username, mail, password } = req.body
     // Jos bodyssa annetaan kelvoton salasana
     if (!password || password.length < 5) {
         return res.status(400).send({
             error: 'password min length 5'
+        })
+    }
+    if (!validator.validate(mail)) {
+        return res.status(400).send({
+            error: 'give valid email-address'
         })
     }
     
@@ -30,7 +36,7 @@ router.post('/', async(req, res) => {
     // Luodaan uusi käyttäjä bodyssa annetuilla arvoilla
     const user = new User({
         username,
-        name,
+        mail,
         passwordHash
     })
     // Tallennetaan luotu käyttäjä tietokantaan

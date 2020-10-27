@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
         minglength: 4,
         unique: true
     },
-    name: String,
+    mail: String,
     passwordHash: String,
     shops: [
         {
