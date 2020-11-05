@@ -22,7 +22,6 @@ router.get('/', async (req, res) => {
 })
 // Uuden kaupan luominen 
 router.post('/', async (req, res) => {
-    
     const shop = new Shop(req.body)
     const token = getTokenFrom(req)
     console.log('token: ', token)
@@ -118,5 +117,20 @@ router.put('/:id/list', async (req, res) => {
     res.json(savedShop.toJSON())
     
 })
+// Käyttäjän lisääminen listan haltijaksi
+router.post('/:id/users', async (req, res) => {
+    const shop = await Shop.findById(req.params.id)
+    const userid = req.body.userid
+    console.log('id in shopcontroller: ', userid)
+    const user = await User.findById(userid)
+    console.log('user in shopcontroller: ', user)
+    if (!user || !userid) return res.status(401).json( {error: 'no user to add'})
 
+    shop.user = shop.user.concat(user._id)
+    user.shops = user.shops.concat(shop._id)
+    await shop.save()
+    await user.save()
+    res.json(shop.toJSON())
+
+})
 module.exports = router

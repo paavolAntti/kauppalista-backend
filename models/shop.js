@@ -16,10 +16,12 @@ const shopSchema = mongoose.Schema({
             amount: Number
         }
     ],
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }
+    user: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
 })
 
 shopSchema.set('toJSON', {

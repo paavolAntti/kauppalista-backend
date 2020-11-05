@@ -15,6 +15,15 @@ router.get('/:id', async (req, res) => {
     res.json(user.toJSON())
 })
 
+router.get('/:id/:mail', async (req, res) => {
+    console.log(req.params)
+    const mail = req.params.mail
+    const user = await User.findOne({ mail: mail})
+    console.log('mail: ', mail)
+    console.log('user: ', user)
+    res.json(user.toJSON())
+})
+
 
 router.post('/', async(req, res) => {
     const { username, mail, password } = req.body
